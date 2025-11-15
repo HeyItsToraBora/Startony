@@ -1,0 +1,20 @@
+.App {
+  min-height: 100vh;
+}
+
+/* Auth pages wrapper - will be applied conditionally */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .auth-wrapper {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+}
+
