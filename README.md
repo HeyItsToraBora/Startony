@@ -1,79 +1,74 @@
-# Auth App - Login & Signup Pages
+# Startony
 
-A modern React application with login and signup pages for developers and entrepreneurs/investors.
+Startony is a platform designed to **connect investors and entrepreneurs with talented developers**, enabling innovative ideas to turn into real projects. Whether you're looking to fund a startup or find the right development team, Startony makes collaboration simple and effective.
+
+---
 
 ## Features
 
-- **Login Page**: Clean and modern login interface
-- **Signup Page**: 
-  - User type selection (Developer or Entrepreneur/Investor)
-  - Comprehensive form fields including:
-    - First Name, Last Name
-    - Email, Phone Number
-    - GitHub Link (for developers)
-    - Portfolio Link (for developers)
-    - Company Name (for entrepreneurs/investors)
-    - LinkedIn Link (for entrepreneurs/investors)
-    - Password and Confirm Password
-  - Logo placeholder for branding
+- 🤝 **Investor & Developer Matching** – Find the perfect fit for your project or investment.  
+- 🚀 **Project Showcasing** – Entrepreneurs can present their ideas to attract the right developers.  
+- 💬 **Messaging & Collaboration** – Communicate directly with potential partners in a secure environment.  
+- 📊 **Progress Tracking** – Track project milestones and development progress.  
 
-## Getting Started
+---
 
-### Prerequisites
+## Tech Stack
 
-- Node.js (v14 or higher)
-- npm or yarn
+- **Frontend:** React / HTML / CSS / JavaScript  
+- **Backend:** Node.js / Go / [your backend language]  
+- **Database:** PostgreSQL / MongoDB / SQLite  
+- **Other Tools:** Git, Docker (optional), JWT authentication  
 
-### Installation
+---
 
-1. Install dependencies:
+## Installation
+
+1. **Clone the repository**
+
 ```bash
+git clone https://github.com/HeyItsToraBora/Startony.git
+cd Startony
+
+Install dependencies (example for Node.js)
+
 npm install
-```
 
-2. Start the development server:
-```bash
+
+Run the project
+
 npm start
-```
 
-3. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Project Structure
+and for Go backend:
 
-```
-src/
-  ├── pages/
-  │   ├── Login.js          # Login page component
-  │   ├── Login.css         # Login page styles
-  │   ├── Signup.js         # Signup page component
-  │   └── Signup.css        # Signup page styles
-  ├── App.js                # Main app component with routing
-  ├── App.css               # App styles
-  ├── index.js              # Entry point
-  └── index.css             # Global styles
-```
+go run main.go
 
-## API Integration
+Usage
 
-The API calls are currently placeholders. To integrate with your backend:
+Create an account as an Investor, Entrepreneur, or Developer.
 
-1. **Login Page** (`src/pages/Login.js`):
-   - Replace the `handleSubmit` function with your API call
+Fill out your profile and skills or interests.
 
-2. **Signup Page** (`src/pages/Signup.js`):
-   - Replace the `handleSubmit` function with your API call
+Browse projects, startups, or talent to find your perfect match.
 
-## Logo
+Connect, chat, and collaborate directly through the platform.
 
-Replace the logo placeholder in both `Login.js` and `Signup.js`:
-- Look for the `logo-box` div
-- Replace the `<span className="logo-text">LOGO</span>` with your logo image:
-  ```jsx
-  <img src="/path-to-your-logo.png" alt="Logo" className="logo-image" />
-  ```
+Contributing
 
-## Customization
+We welcome contributions to help Startony grow!
 
-- Colors: Modify the gradient colors in the CSS files (currently using purple gradient)
-- Styling: All styles are in the respective CSS files for easy customization
+Fork the repository
 
+Create a new branch: git checkout -b feature-name
+
+Make your changes and commit: git commit -m "Add feature"
+
+Push to your branch: git push origin feature-name
+
+Open a Pull Request
+
+Contact
+
+GitHub: @HeyItsToraBora
+Gmail: youssefmkhalil931@gmail.com
