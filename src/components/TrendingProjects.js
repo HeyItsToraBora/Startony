@@ -8,6 +8,7 @@ const TrendingProjects = () => {
   const trendingProjects = [
     {
       id: 1,
+      code: '6989386698686439469',
       name: 'AI Chat Assistant',
       developer: {
         username: 'ai_dev',
@@ -19,6 +20,7 @@ const TrendingProjects = () => {
     },
     {
       id: 2,
+      code: '7989386698686439470',
       name: 'Crypto Tracker',
       developer: {
         username: 'crypto_master',
@@ -30,6 +32,7 @@ const TrendingProjects = () => {
     },
     {
       id: 3,
+      code: '8989386698686439471',
       name: 'Music Streaming App',
       developer: {
         username: 'music_dev',
@@ -41,6 +44,7 @@ const TrendingProjects = () => {
     },
     {
       id: 4,
+      code: '9989386698686439472',
       name: 'Photo Editor Pro',
       developer: {
         username: 'photo_editor',
@@ -52,6 +56,7 @@ const TrendingProjects = () => {
     },
     {
       id: 5,
+      code: '3989386698686439466',
       name: 'Task Manager Plus',
       developer: {
         username: 'task_pro',
@@ -63,6 +68,7 @@ const TrendingProjects = () => {
     },
     {
       id: 6,
+      code: '1989386698686439473',
       name: 'Weather Forecast',
       developer: {
         username: 'weather_guru',
@@ -81,7 +87,7 @@ const TrendingProjects = () => {
         {trendingProjects.map((project, index) => (
           <Link
             key={project.id}
-            to={`/dev/${project.developer.username}`}
+            to={`/dev/${project.developer.username}/${project.code}`}
             className="trending-item"
           >
             <div className="trending-rank">{index + 1}</div>

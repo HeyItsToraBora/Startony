@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
 const Login = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,10 +18,15 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement API call for login
-    console.log('Login data:', formData);
+    try {
+      await login(formData.email, formData.password);
+      console.log('Login success');
+      navigate('/home');
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -26,11 +34,14 @@ const Login = () => {
       <div className="login-card">
         <div className="logo-placeholder">
           <div className="logo-box">
-            {/* Logo space - replace with your logo */}
-            <span className="logo-text">LOGO</span>
+            <img 
+              src="/assets/logo.svg" 
+              alt="Startony Logo" 
+              className="logo-image"
+            />
           </div>
         </div>
-        
+
         <h1 className="login-title">Welcome Back</h1>
         <p className="login-subtitle">Sign in to your account</p>
 

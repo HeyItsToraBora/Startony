@@ -1,0 +1,219 @@
+.follow-button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 2px solid;
+  background-color: transparent;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.follow-button.small {
+  padding: 8px 16px;
+  font-size: 12px;
+  border-radius: 8px;
+  letter-spacing: 0.6px;
+}
+
+.follow-button.large {
+  padding: 16px 32px;
+  font-size: 16px;
+  border-radius: 16px;
+  letter-spacing: 1px;
+}
+
+/* Default state (not following) */
+.follow-button:not(.following) {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.12) 100%);
+}
+
+.follow-button:not(.following):hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-color: #3b82f6;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+}
+
+.follow-button:not(.following):active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+/* Following state */
+.follow-button.following {
+  border-color: #4b5563;
+  color: #9ca3af;
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+.follow-button.following:hover {
+  border-color: #dc2626;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, #dc2626 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
+}
+
+.follow-button.following:hover::before {
+  content: 'Unfollow';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.95) 0%, #dc2626 100%);
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+}
+
+/* Loading state */
+.follow-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.loading-text {
+  display: inline-block;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: scale(0.95);
+  }
+}
+
+/* Enhanced shimmer effect */
+.follow-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.8s ease;
+}
+
+.follow-button:hover::after {
+  left: 100%;
+}
+
+/* Inner glow effect */
+.follow-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    transparent 50%, 
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.follow-button:hover::before {
+  opacity: 1;
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  .follow-button:not(.following) {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.18) 100%);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .follow-button {
+    padding: 10px 18px;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+  }
+  
+  .follow-button.small {
+    padding: 6px 12px;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+  }
+}
+
+/* Focus states for accessibility */
+.follow-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+.follow-button.following:focus {
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.3);
+}
+
+/* Premium hover effects */
+.follow-button:not(.following):hover {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Micro-interactions */
+.follow-button {
+  transform-origin: center;
+}
+
+.follow-button:not(:disabled):hover {
+  animation: buttonHover 0.6s ease-out;
+}
+
+@keyframes buttonHover {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-3px) scale(1.02); }
+  100% { transform: translateY(-3px) scale(1); }
+}
+
+/* Text shadow for better readability */
+.follow-button:not(.following):hover {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.follow-button.following:hover {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}

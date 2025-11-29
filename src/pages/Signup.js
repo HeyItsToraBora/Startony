@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Signup.css';
 
 const Signup = () => {
+  const { signup } = useAuth();
+  const navigate = useNavigate();
   const [userType, setUserType] = useState('developer');
   const [formData, setFormData] = useState({
     firstName: '',
@@ -34,17 +37,42 @@ const Signup = () => {
       email: '',
       phone: '',
       githubLink: '',
-      password: '',
       confirmPassword: '',
       linkedinLink: '',
       portfolioLink: ''
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement API call for signup
-    console.log('Signup data:', { userType, ...formData });
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+
+    try {
+      // Prepare the signup data with all fields
+      const signupData = {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        userType: userType,
+        githubLink: formData.githubLink,
+        portfolioLink: formData.portfolioLink,
+        linkedinLink: formData.linkedinLink,
+        companyName: formData.companyName
+      };
+
+      await signup(signupData);
+      console.log('Signup success');
+      alert('Account created! Redirecting to home...');
+      navigate('/home');
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -52,8 +80,11 @@ const Signup = () => {
       <div className="signup-card">
         <div className="logo-placeholder">
           <div className="logo-box">
-            {/* Logo space - replace with your logo */}
-            <span className="logo-text">LOGO</span>
+            <img 
+              src="/assets/logo.svg" 
+              alt="Startony Logo" 
+              className="logo-image"
+            />
           </div>
         </div>
 
@@ -228,8 +259,8 @@ const Signup = () => {
             <p>Already have an account? <Link to="/login">Sign in</Link></p>
           </div>
         </form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
-  
-  // Sample user data - replace with API call
-  const userData = {
-    username: 'youssef_kh',
-    fullName: 'Youssef Mohammed Khalil',
-    profilePicture: null
-  };
+  const { user, logout } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Debug: Log user data
+  useEffect(() => {
+    console.log('Sidebar user data:', user);
+  }, [user]);
 
   const menuItems = [
     { 
@@ -35,11 +37,11 @@ const Sidebar = () => {
       path: '/notifications' 
     },
     { 
-      id: 'messages', 
-      label: 'Messages', 
-      icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z',
-      iconFilled: 'M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155',
-      path: '/messages' 
+      id: 'saved', 
+      label: 'Saved Projects', 
+      icon: 'M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z',
+      iconFilled: 'M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z',
+      path: '/saved' 
     },
     { 
       id: 'starred', 
@@ -53,7 +55,7 @@ const Sidebar = () => {
       label: 'Profile', 
       icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
       iconFilled: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
-      path: `/dev/${userData.username}` 
+      path: `/dev/${user?.username || 'profile'}` 
     }
   ];
 
@@ -70,6 +72,37 @@ const Sidebar = () => {
       return false;
     }
     return location.pathname.startsWith(path);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleProfileClick = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const handleSettings = () => {
+    // Navigate to settings page (you can create this route later)
+    window.location.href = '/settings';
   };
 
   return (
@@ -110,22 +143,48 @@ const Sidebar = () => {
       </nav>
 
       {/* User Profile Section */}
-      <div className="sidebar-profile">
-        {userData.profilePicture ? (
-          <img
-            src={userData.profilePicture}
-            alt={userData.username}
-            className="profile-pic-small"
-          />
-        ) : (
-          <div className="profile-pic-small-placeholder">
-            <span>{userData.username.charAt(0).toUpperCase()}</span>
+      <div className="sidebar-profile" ref={dropdownRef}>
+        <div className="profile-container" onClick={handleProfileClick}>
+          {user?.profile_picture ? (
+            <img
+              src={user.profile_picture}
+              alt={user.username}
+              className="profile-pic-small"
+            />
+          ) : (
+            <div className="profile-pic-small-placeholder">
+              <span>{user?.username?.charAt(0).toUpperCase() || 'U'}</span>
+            </div>
+          )}
+          <div className="profile-info-small">
+            <p className="profile-name-small">
+              {(user?.first_name && user?.last_name) 
+                ? `${user.first_name} ${user.last_name}` 
+                : user?.username || 'User'}
+            </p>
+            <p className="profile-username-small">@{user?.username || 'user'}</p>
+          </div>
+        </div>
+        
+        {/* Dropdown Menu */}
+        {showDropdown && (
+          <div className="profile-dropdown">
+            <div className="dropdown-item" onClick={handleSettings}>
+              <svg className="dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <span>Settings</span>
+            </div>
+            <div className="dropdown-divider"></div>
+            <div className="dropdown-item logout-item" onClick={handleLogout}>
+              <svg className="dropdown-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+              </svg>
+              <span>Log out</span>
+            </div>
           </div>
         )}
-        <div className="profile-info-small">
-          <p className="profile-name-small">{userData.fullName}</p>
-          <p className="profile-username-small">@{userData.username}</p>
-        </div>
       </div>
     </aside>
   );

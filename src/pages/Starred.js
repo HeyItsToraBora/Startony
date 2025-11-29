@@ -9,6 +9,7 @@ const Starred = () => {
   const starredProjects = [
     {
       id: 1,
+      code: '1989386698686439464',
       image: null,
       name: 'E-Commerce Platform',
       generalTags: ['E-Commerce', 'Business', 'Retail'],
@@ -24,6 +25,7 @@ const Starred = () => {
     },
     {
       id: 6,
+      code: '6989386698686439469',
       image: null,
       name: 'AI Chat Assistant',
       generalTags: ['AI', 'Automation', 'Tech'],
@@ -39,6 +41,7 @@ const Starred = () => {
     },
     {
       id: 8,
+      code: '8989386698686439471',
       image: null,
       name: 'Music Streaming App',
       generalTags: ['Entertainment', 'Music', 'Streaming'],
@@ -54,6 +57,7 @@ const Starred = () => {
     },
     {
       id: 5,
+      code: '5989386698686439468',
       image: null,
       name: 'Learning Management System',
       generalTags: ['Education', 'E-Learning', 'Training'],
@@ -69,6 +73,7 @@ const Starred = () => {
     },
     {
       id: 12,
+      code: '1989386698686439475',
       image: null,
       name: 'Travel Planner App',
       generalTags: ['Travel', 'Planning', 'Utility'],
@@ -99,7 +104,7 @@ const Starred = () => {
               {starredProjects.map(project => (
                 <Link 
                   key={project.id} 
-                  to={`/dev/${project.developer.username}`}
+                  to={`/dev/${project.developer.username}/${project.code}`}
                   className="starred-project-card"
                 >
                   <div className="starred-card-image">
