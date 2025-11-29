@@ -1,0 +1,139 @@
+package main
+
+import (
+	"auth-app-backend/database"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/lib/pq"
+	"golang.org/x/crypto/bcrypt"
+)
+
+func main() {
+	// Connect to Database
+	database.Connect()
+
+	// Read Schema
+	schema, err := os.ReadFile("schema.sql")
+	if err != nil {
+		log.Fatal("Error reading schema.sql: ", err)
+	}
+
+	// Execute Schema
+	_, err = database.DB.Exec(string(schema))
+	if err != nil {
+		log.Fatal("Error executing schema: ", err)
+	}
+	fmt.Println("Schema applied successfully.")
+
+	// Seed Users
+	password := "password123"
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+	users := []struct {
+		Username string
+		Email    string
+	}{
+		{"john_doe", "john@example.com"},
+		{"jane_smith", "jane@example.com"},
+		{"alex_dev", "alex@example.com"},
+		{"sarah_wilson", "sarah@example.com"},
+		{"mike_brown", "mike@example.com"},
+	}
+
+	for _, u := range users {
+		_, err := database.DB.Exec(`
+			INSERT INTO users (username, email, password_hash) 
+			VALUES ($1, $2, $3) 
+			ON CONFLICT (email) DO NOTHING`,
+			u.Username, u.Email, string(hashedPassword))
+		if err != nil {
+			log.Printf("Error seeding user %s: %v\n", u.Username, err)
+		}
+	}
+	fmt.Println("Users seeded.")
+
+	// Seed Projects
+	// We need to fetch user IDs first
+	var johnID, janeID, alexID, sarahID, mikeID int
+	database.DB.QueryRow("SELECT id FROM users WHERE username='john_doe'").Scan(&johnID)
+	database.DB.QueryRow("SELECT id FROM users WHERE username='jane_smith'").Scan(&janeID)
+	database.DB.QueryRow("SELECT id FROM users WHERE username='alex_dev'").Scan(&alexID)
+	database.DB.QueryRow("SELECT id FROM users WHERE username='sarah_wilson'").Scan(&sarahID)
+	database.DB.QueryRow("SELECT id FROM users WHERE username='mike_brown'").Scan(&mikeID)
+
+	projects := []struct {
+		UserID          int
+		Name            string
+		Description     string
+		Code            string
+		GeneralTags     []string
+		ProgrammingTags []string
+		Likes           int
+		Status          string
+	}{
+		{
+			UserID:          johnID,
+			Name:            "E-Commerce Platform",
+			Description:     "A modern e-commerce platform built with React and Node.js. Features include user authentication, product catalog, shopping cart, and payment integration.",
+			Code:            "1989386698686439464",
+			GeneralTags:     []string{"E-Commerce", "Business", "Retail"},
+			ProgrammingTags: []string{"React", "Node.js", "MongoDB", "Express"},
+			Likes:           245,
+			Status:          "Ready for production",
+		},
+		{
+			UserID:          janeID,
+			Name:            "Social Media Dashboard",
+			Description:     "A comprehensive social media management dashboard that allows users to schedule posts, analyze engagement metrics, and manage multiple social accounts from one place.",
+			Code:            "2989386698686439465",
+			GeneralTags:     []string{"Social Media", "Analytics", "Marketing"},
+			ProgrammingTags: []string{"Vue.js", "Python", "PostgreSQL", "Django"},
+			Likes:           189,
+			Status:          "Under development",
+		},
+		{
+			UserID:          alexID,
+			Name:            "Task Management App",
+			Description:     "A collaborative task management application with real-time updates, team collaboration features, and project tracking capabilities.",
+			Code:            "3989386698686439466",
+			GeneralTags:     []string{"Productivity", "Collaboration", "Project Management"},
+			ProgrammingTags: []string{"Angular", "TypeScript", "Firebase", "Material UI"},
+			Likes:           312,
+			Status:          "Under development",
+		},
+		{
+			UserID:          sarahID,
+			Name:            "Fitness Tracking Platform",
+			Description:     "A fitness and health tracking platform that helps users monitor their workouts, nutrition, and progress towards fitness goals.",
+			Code:            "4989386698686439467",
+			GeneralTags:     []string{"Health", "Fitness", "Wellness"},
+			ProgrammingTags: []string{"React Native", "GraphQL", "MongoDB", "Node.js"},
+			Likes:           156,
+			Status:          "Only an Idea",
+		},
+		{
+			UserID:          mikeID,
+			Name:            "Learning Management System",
+			Description:     "An online learning platform that provides courses, quizzes, and certification programs for students and professionals.",
+			Code:            "5989386698686439468",
+			GeneralTags:     []string{"Education", "E-Learning", "Training"},
+			ProgrammingTags: []string{"Next.js", "Prisma", "PostgreSQL", "Tailwind CSS"},
+			Likes:           428,
+			Status:          "Ready for production",
+		},
+	}
+
+	for _, p := range projects {
+		_, err := database.DB.Exec(`
+			INSERT INTO projects (user_id, name, description, code, general_tags, programming_tags, likes, status)
+			VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			ON CONFLICT (code) DO NOTHING`,
+			p.UserID, p.Name, p.Description, p.Code, pq.Array(p.GeneralTags), pq.Array(p.ProgrammingTags), p.Likes, p.Status)
+		if err != nil {
+			log.Printf("Error seeding project %s: %v\n", p.Name, err)
+		}
+	}
+	fmt.Println("Projects seeded.")
+}

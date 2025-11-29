@@ -1,0 +1,43 @@
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	"io/ioutil"
+	"log"
+
+	_ "github.com/lib/pq"
+)
+
+func main() {
+	fmt.Println("Starting database migration...")
+
+	// Connect to the auth_app database
+	connStr := "postgres://postgres:YAKOZA@1234@127.0.0.1:1111/auth_app?sslmode=disable"
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal("Error connecting to the database: ", err)
+	}
+	defer db.Close()
+
+	// Test connection
+	err = db.Ping()
+	if err != nil {
+		log.Fatal("Cannot connect to database: ", err)
+	}
+	fmt.Println("Connected to database successfully")
+
+	// Read and execute the schema
+	schemaSQL, err := ioutil.ReadFile("../../schema.sql")
+	if err != nil {
+		log.Fatal("Error reading schema file: ", err)
+	}
+
+	// Execute schema
+	_, err = db.Exec(string(schemaSQL))
+	if err != nil {
+		log.Fatal("Error executing schema: ", err)
+	}
+
+	fmt.Println("Database schema updated successfully!")
+}

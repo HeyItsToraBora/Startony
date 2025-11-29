@@ -1,0 +1,323 @@
+/* Profile Project Card Container */
+.profile-project-card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* Main Profile Project Card */
+.profile-project-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  position: relative;
+  border: 1px solid #333;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  min-height: 420px;
+}
+
+.profile-project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  border-color: #444;
+}
+
+/* Project Image Container - Background */
+.profile-project-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.profile-project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.profile-project-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b8b8b;
+  font-size: 14px;
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* Content Overlay */
+.profile-project-content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, 
+    rgba(26, 26, 26, 0.85) 0%, 
+    rgba(26, 26, 26, 0.9) 20%,
+    rgba(26, 26, 26, 0.95) 50%, 
+    rgba(26, 26, 26, 0.98) 80%,
+    rgba(26, 26, 26, 1) 100%
+  );
+}
+
+.profile-project-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Project Header */
+.profile-project-header {
+  margin-bottom: 20px;
+}
+
+.profile-project-title-section {
+  text-align: center;
+}
+
+.profile-project-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.profile-project-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.profile-project-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.profile-project-status.status-only-an-idea {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.profile-project-status.status-under-development {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.profile-project-status.status-ready-for-production {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Developer Profile Picture */
+.profile-developer-pfp-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.profile-developer-pfp {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-developer-pfp-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.profile-developer-pfp-initial {
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-developer-info {
+  text-align: center;
+}
+
+.profile-developer-name {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Project Description */
+.profile-project-description {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  text-align: center;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* Tags Sections */
+.profile-tags-section {
+  margin-bottom: 20px;
+}
+
+.profile-tags-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.profile-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.profile-tag.general-tag {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.3) 100%);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.profile-tag.programming-tag {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.3) 100%);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+.profile-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Swipe Animations */
+.swipe-left {
+  animation: swipeLeft 0.5s ease-out forwards;
+}
+
+.swipe-right {
+  animation: swipeRight 0.5s ease-out forwards;
+}
+
+@keyframes swipeLeft {
+  to {
+    transform: translateX(-120%) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeRight {
+  to {
+    transform: translateX(120%) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-project-card {
+    max-width: 320px;
+    min-height: 380px;
+  }
+  
+  .profile-project-content-wrapper {
+    padding: 20px;
+  }
+  
+  .profile-project-name {
+    font-size: 1.4rem;
+  }
+  
+  .profile-project-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-project-card {
+    max-width: 280px;
+    min-height: 360px;
+  }
+  
+  .profile-project-content-wrapper {
+    padding: 16px;
+  }
+  
+  .profile-project-name {
+    font-size: 1.2rem;
+  }
+  
+  .profile-project-description {
+    font-size: 0.85rem;
+  }
+  
+  .profile-tags-container {
+    gap: 6px;
+  }
+  
+  .profile-tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+}
